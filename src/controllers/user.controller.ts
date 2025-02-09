@@ -5,18 +5,11 @@ import { createApiError } from "../utils/createApiError";
 import userService from "./../services/user.service";
 import tokenService from "../services/token.service";
 import env from "../config/env";
-import notificationService from "../services/notification.service";
 import logger from "../config/logger";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const user = await userService.createUser(req.body);
   const token = await tokenService.generateAuthTokens(user.id);
-  logger.info(user);
-  const notification = await notificationService.sendNotification({
-    message: "Welcome to the app",
-    priority: "high",
-    send_time: new Date(),
-  });
   res.status(httpStatus.CREATED).send({ user, token });
 });
 

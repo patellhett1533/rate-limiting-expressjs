@@ -8,11 +8,7 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid("production", "development", "test").required(),
     PROJECT_ID: Joi.string().required(),
-    MONGODB_USER: Joi.string().required(),
-    MONGODB_HOST: Joi.string().allow(""),
-    MONGODB_PASSWORD: Joi.string().allow(""),
-    MONGODB_DATABASE: Joi.string().required(),
-    MONGODB_DOCKER_PORT: Joi.number().required(),
+    MONGO_URI: Joi.string().required(),
     JWT_SECRET: Joi.string().required(),
     JWT_ACCESS_EXPIRATION_DAYS: Joi.number().required(),
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number().required(),
@@ -39,6 +35,6 @@ export default {
     verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
   },
   mongodb: {
-    url: `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_DOCKER_PORT}/${process.env.MONGODB_DATABASE}?authSource=admin`,
+    url: envVars.MONGO_URI,
   },
 };
